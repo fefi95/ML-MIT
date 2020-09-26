@@ -1,0 +1,8 @@
+black
+flake8
+matplotlib
+numpy
+pandas
+scipy
+scikit-learn
+tqdm
