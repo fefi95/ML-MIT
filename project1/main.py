@@ -1,18 +1,26 @@
 import project1 as p1
 import utils
 import numpy as np
+from convergence import convergence, plot_convergence
 
-#-------------------------------------------------------------------------------
+
+# -------------------------------------------------------------------------------
 # Data loading. There is no need to edit code in this section.
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
-train_data = utils.load_data('reviews_train.tsv')
-val_data = utils.load_data('reviews_val.tsv')
-test_data = utils.load_data('reviews_test.tsv')
+train_data = utils.load_data("reviews_train.tsv")
+val_data = utils.load_data("reviews_val.tsv")
+test_data = utils.load_data("reviews_test.tsv")
 
-train_texts, train_labels = zip(*((sample['text'], sample['sentiment']) for sample in train_data))
-val_texts, val_labels = zip(*((sample['text'], sample['sentiment']) for sample in val_data))
-test_texts, test_labels = zip(*((sample['text'], sample['sentiment']) for sample in test_data))
+train_texts, train_labels = zip(
+    *((sample["text"], sample["sentiment"]) for sample in train_data)
+)
+val_texts, val_labels = zip(
+    *((sample["text"], sample["sentiment"]) for sample in val_data)
+)
+test_texts, test_labels = zip(
+    *((sample["text"], sample["sentiment"]) for sample in test_data)
+)
 
 dictionary = p1.bag_of_words(train_texts)
 
@@ -20,11 +28,11 @@ train_bow_features = p1.extract_bow_feature_vectors(train_texts, dictionary)
 val_bow_features = p1.extract_bow_feature_vectors(val_texts, dictionary)
 test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Problem 5
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
-toy_features, toy_labels = toy_data = utils.load_toy_data('toy_data.tsv')
+toy_features, toy_labels = toy_data = utils.load_toy_data("toy_data.tsv")
 
 T = 10
 L = 0.2
@@ -35,18 +43,27 @@ thetas_pegasos = p1.pegasos(toy_features, toy_labels, T, L)
 
 
 def plot_toy_results(algo_name, thetas):
-    print('theta for', algo_name, 'is', ', '.join(map(str,list(thetas[0]))))
-    print('theta_0 for', algo_name, 'is', str(thetas[1]))
+    print("theta for", algo_name, "is", ", ".join(map(str, list(thetas[0]))))
+    print("theta_0 for", algo_name, "is", str(thetas[1]))
     utils.plot_toy_data(algo_name, toy_features, toy_labels, thetas)
 
 
-plot_toy_results('Perceptron', thetas_perceptron)
-plot_toy_results('Average Perceptron', thetas_avg_perceptron)
-plot_toy_results('Pegasos', thetas_pegasos)
+# plot_toy_results("Perceptron", thetas_perceptron)
+# plot_toy_results("Average Perceptron", thetas_avg_perceptron)
+# plot_toy_results("Pegasos", thetas_pegasos)
 
-#-------------------------------------------------------------------------------
+costs, i = convergence(p1.perceptron, toy_features, toy_labels)
+plot_convergence(costs, i)
+
+costs, i = convergence(p1.average_perceptron, toy_features, toy_labels)
+plot_convergence(costs, i)
+
+costs, i = convergence(p1.pegasos, toy_features, toy_labels, L=L)
+plot_convergence(costs, i)
+
+# -------------------------------------------------------------------------------
 # Problem 7
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 # T = 10
 # L = 0.01
@@ -66,9 +83,9 @@ plot_toy_results('Pegasos', thetas_pegasos)
 # print("{:50} {:.4f}".format("Training accuracy for Pegasos:", avg_peg_train_accuracy))
 # print("{:50} {:.4f}".format("Validation accuracy for Pegasos:", avg_peg_val_accuracy))
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Problem 8
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 # data = (train_bow_features, train_labels, val_bow_features, val_labels)
 #
@@ -100,19 +117,19 @@ plot_toy_results('Pegasos', thetas_pegasos)
 # utils.plot_tune_results('Pegasos', 'T', Ts, *peg_tune_results_T)
 # utils.plot_tune_results('Pegasos', 'L', Ls, *peg_tune_results_L)
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Use the best method (perceptron, average perceptron or Pegasos) along with
 # the optimal hyperparameters according to validation accuracies to test
 # against the test dataset. The test data has been provided as
 # test_bow_features and test_labels.
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 # Your code here
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Assign to best_theta, the weights (and not the bias!) learned by your most
 # accurate algorithm with the optimal choice of hyperparameters.
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 
 # best_theta = None # Your code here
 # wordlist   = [word for (idx, word) in sorted(zip(dictionary.values(), dictionary.keys()))]
