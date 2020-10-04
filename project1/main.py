@@ -156,19 +156,19 @@ test_bow_features = p1.extract_bow_feature_vectors(test_texts, dictionary)
 # test_bow_features and test_labels.
 # -------------------------------------------------------------------------------
 
-# optimal_T = 25
-# optimal_L = 0.01
+optimal_T = 25
+optimal_L = 0.01
 
-# accuracy_train, accuracy_val = p1.classifier_accuracy(
-#     p1.pegasos,
-#     train_bow_features,
-#     test_bow_features,
-#     train_labels,
-#     test_labels,
-#     T=optimal_T,
-#     L=optimal_L,
-# )
-# print("Accuracy train", accuracy_train, accuracy_val)
+accuracy_train, accuracy_val = p1.classifier_accuracy(
+    p1.pegasos,
+    train_bow_features,
+    test_bow_features,
+    train_labels,
+    test_labels,
+    T=optimal_T,
+    L=optimal_L,
+)
+print("Accuracy train", accuracy_train, accuracy_val)
 
 # -------------------------------------------------------------------------------
 # Assign to best_theta, the weights (and not the bias!) learned by your most

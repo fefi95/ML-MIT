@@ -406,14 +406,16 @@ def bag_of_words(texts):
 
     Feel free to change this code as guided by Problem 9
     """
-    # Your code here
-    dictionary = {}  # maps word to unique index
-    for text in texts:
-        word_list = extract_words(text)
-        for word in word_list:
-            if word not in dictionary:
-                dictionary[word] = len(dictionary)
-    return dictionary
+    with open("stopwords.txt") as fp:
+        stop_words = [line[:-1] for line in fp.readlines()]
+        dictionary = {}  # maps word to unique index
+        for text in texts:
+            word_list = extract_words(text)
+            for word in word_list:
+                if word not in dictionary and word not in stop_words:
+                    dictionary[word] = len(dictionary)
+        return dictionary
+    return {}
 
 
 # pragma: coderesponse end
@@ -430,8 +432,6 @@ def extract_bow_feature_vectors(reviews, dictionary):
 
     Feel free to change this code as guided by Problem 9
     """
-    # Your code here
-
     num_reviews = len(reviews)
     feature_matrix = np.zeros([num_reviews, len(dictionary)])
 
@@ -439,7 +439,7 @@ def extract_bow_feature_vectors(reviews, dictionary):
         word_list = extract_words(text)
         for word in word_list:
             if word in dictionary:
-                feature_matrix[i, dictionary[word]] = 1
+                feature_matrix[i, dictionary[word]] = feature_matrix[i, dictionary[word]] + 1
     return feature_matrix
 
 
