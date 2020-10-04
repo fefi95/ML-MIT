@@ -307,8 +307,13 @@ def classify(feature_matrix, theta, theta_0):
     given theta and theta_0. If a prediction is GREATER THAN zero, it should
     be considered a positive classification.
     """
-    # Your code here
-    raise NotImplementedError
+    return np.array(
+        [
+            1 if np.dot(theta, feature_vector) + theta_0 > 0 else -1
+            for feature_vector in feature_matrix
+        ],
+        dtype=float,
+    )
 
 
 # pragma: coderesponse end
@@ -348,8 +353,29 @@ def classifier_accuracy(
     trained classifier on the training data and the second element is the
     accuracy of the trained classifier on the validation data.
     """
-    # Your code here
-    raise NotImplementedError
+    # Train with test data
+    max_iter = 200
+    cost = 0
+    theta = []
+    theta_0 = 0
+
+    i = 10  # Initialize the counter of iterations.
+    for i in range(max_iter):
+        theta, theta_0 = classifier(train_feature_matrix, train_labels, **kwargs)
+        current_cost = theta_0
+
+        if abs(current_cost - cost) <= 0.001:
+            break  # Convergence
+        cost = current_cost
+
+    accuracy_train_data = accuracy(
+        classify(train_feature_matrix, theta, theta_0), train_labels
+    )
+    accuracy_val_data = accuracy(
+        classify(val_feature_matrix, theta, theta_0), val_labels
+    )
+
+    return (accuracy_train_data, accuracy_val_data)
 
 
 # pragma: coderesponse end
