@@ -4,6 +4,7 @@ from sklearn.svm import LinearSVC
 
 ### Functions for you to fill in ###
 
+
 def one_vs_rest_svm(train_x, train_y, test_x):
     """
     Trains a linear SVM for binary classifciation
@@ -36,7 +37,5 @@ def multi_class_svm(train_x, train_y, test_x):
     return svc.predict(test_x)
 
 
-
 def compute_test_error_svm(test_y, pred_test_y):
     return 1 - np.mean(pred_test_y == test_y)
-
