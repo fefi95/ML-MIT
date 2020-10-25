@@ -34,3 +34,10 @@ if __name__ == "__main__":
         np.array(X, dtype=float), np.array(Y, dtype=float), np.array(theta, dtype=float)
     )
     print(square_loss)
+
+    # Lecture 8 - Neural networks
+    w_0 = -3
+    x = np.array([1, 0])
+    w = np.array([1, -1])
+    z = w_0 + np.dot(x, w)
+    print(z)
